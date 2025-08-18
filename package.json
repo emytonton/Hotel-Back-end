@@ -1,0 +1,8 @@
+{
+  "name": "ProjetoCasa",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:emytonton/Hotel-Back-end.git",
+  "author": "Emilly Paiva <emillypaiva3260@gmail.com>",
+  "license": "MIT"
+}
