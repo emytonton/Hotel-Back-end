@@ -1,13 +1,14 @@
 import express from 'express';
 import mongoose from 'mongoose'
 import routes from './routes';
+import 'dotenv/config'
 
 class App{
 
     constructor(){
         this.server = express();
 
-        mongoose.connect('mongodb+srv://hotel:hotel@hotelback.ji2p07r.mongodb.net/?retryWrites=true&w=majority&appName=hotelback', {
+        mongoose.connect('process.env.DB_CONNECTION', {
         });
         this.middlewares();
         this.routes();
