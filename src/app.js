@@ -1,15 +1,15 @@
+import 'dotenv/config'
 import express from 'express';
 import mongoose from 'mongoose'
 import routes from './routes';
-import 'dotenv/config'
+
 
 class App{
 
     constructor(){
         this.server = express();
 
-        mongoose.connect('process.env.DB_CONNECTION', {
-        });
+        mongoose.connect(process.env.DB_CONNECTION);
         this.middlewares();
         this.routes();
 
