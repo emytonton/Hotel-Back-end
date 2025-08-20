@@ -1,4 +1,5 @@
 import User from '../models/User'
+import * as Yup from 'yup'
 //metodos: index, show, update, store, destroy
 
 /* 
@@ -11,6 +12,15 @@ destroy: deleter uma sessao
 */
  class SessionController {
      async store(req,res){
+
+        const schema = Yup.object().shape({
+            email: Yup.string().email().required(),
+        });
+
+        if(!(await schema.isValid(req.body))){
+            return res.status(400).json({error: 'Falha na validação'});
+        }
+
         const {email} = req.body;
 
         let user = await User.findOne({email});
