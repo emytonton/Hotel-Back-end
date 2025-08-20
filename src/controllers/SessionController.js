@@ -1,37 +1,27 @@
-import User from '../models/User'
-import * as Yup from 'yup'
-//metodos: index, show, update, store, destroy
 
-/* 
-index: listagem de sessoes
-store: criar uma sessao
-show: listar uma unica sessao
-update: alterar alguma sessao
-destroy: deleter uma sessao
+import * as Yup from 'yup';
+import FindOrCreateUserUseCase from '../use-cases/session/FindOrCreateUserUseCase';
 
-*/
- class SessionController {
-     async store(req,res){
+class SessionController {
+  async store(req, res) {
+    const schema = Yup.object().shape({
+      email: Yup.string().email().required(),
+    });
 
-        const schema = Yup.object().shape({
-            email: Yup.string().email().required(),
-        });
-
-        if(!(await schema.isValid(req.body))){
-            return res.status(400).json({error: 'Falha na validação'});
-        }
-
-        const {email} = req.body;
-
-        let user = await User.findOne({email});
-        
-        if(!user){
-         user =  await User.create({email})
-        }
-
-        
-        return res.json(user);
+    if (!(await schema.isValid(req.body))) {
+      return res.status(400).json({ error: 'Email é necessario' });
     }
+
+    const { email } = req.body;
+    const findOrCreateUser = new FindOrCreateUserUseCase();
+
+    try {
+      const user = await findOrCreateUser.execute({ email });
+      return res.json(user);
+    } catch (error) {
+      return res.status(400).json({ error: error.message });
+    }
+  }
 }
 
-export default new SessionController;
+export default new SessionController();

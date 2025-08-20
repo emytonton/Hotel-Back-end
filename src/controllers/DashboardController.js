@@ -1,16 +1,17 @@
-import House from "../models/House";
+import ListUserHousesUseCase from '../use-cases/dashboard/ListUserHousesUseCase';
 
-class DashboardController{
+class DashboardController {
+  async show(req, res) {
+    const { user_id } = req.headers;
+    const listUserHouses = new ListUserHousesUseCase();
 
-    async show(req,res){
-
-        const {user_id} = req.headers;
-
-        const houses = await House.find({user: user_id});
-        
-        return res.json(houses);
+    try {
+      const houses = await listUserHouses.execute({ user_id });
+      return res.json(houses);
+    } catch (error) {
+      return res.status(400).json({ error: error.message });
     }
-
+  }
 }
 
 export default new DashboardController();

@@ -1,75 +1,82 @@
-import House from "../models/House";
-import Reserve from "../models/Reserve";
-import User from "../models/User";
+import * as Yup from 'yup';
+import ListUserReservesUseCase from '../use-cases/reserve/ListUserReservesUseCase';
+import CreateReserveUseCase from '../use-cases/reserve/CreateReserveUseCase';
+import UpdateReserveUseCase from '../use-cases/reserve/UpdateReserveUseCase';
+import DeleteReserveUseCase from '../use-cases/reserve/DeleteReserveUseCase';
 
-class ReserveController{
+class ReserveController {
 
-    async index(req,res){
+  async index(req, res) {
+    const { user_id } = req.headers;
+    const listUserReserves = new ListUserReservesUseCase();
 
-        const {user_id} = req.headers;
+    try {
+      const reserves = await listUserReserves.execute({ user_id });
+      return res.json(reserves);
+    } catch (error) {
+      return res.status(400).json({ error: error.message });
+    }
+  }
 
-        const reserves = await Reserve.find({ user: user_id}).populate('house');
 
-        
-        return res.json(reserves);
+  async store(req, res) {
+    const schema = Yup.object().shape({
+      date: Yup.string().required(),
+    });
+
+    if (!(await schema.isValid(req.body))) {
+      return res.status(400).json({ error: 'Data é obrigatorio' });
     }
 
-    async store(req,res){
+    const { user_id } = req.headers;
+    const { house_id } = req.params;
+    const { date } = req.body;
 
-        const {user_id} = req.headers;
-        const {house_id} = req.params;
-        const {date} = req.body;
+    const createReserve = new CreateReserveUseCase();
 
-        const house = await House.findById(house_id);
-
-        if(!house){
-            return res.status(400).json({error: 'Essa casa não existe'});
-        }
-
-        if(house.status !== true){
-            return res.status(400).json({error: 'Essa casa não está disponivel'});
-        }
-
-        const user = await User.findById(user_id);
-
-        if(String(user_id) === String(house.user)){
-            return res.status(401).json({error: 'Reserva não permitida'})
-        }
-
-        const reserve = await Reserve.create({
-            user: user_id,
-            house: house_id,
-            date,
-        });
-
-        await reserve.populate(['house', 'user']);
-
-        return res.json(reserve);
+    try {
+      const reserve = await createReserve.execute({ user_id, house_id, date });
+      return res.status(201).json(reserve);
+    } catch (error) {
+      const statusCode = error.message.includes('Não autorizado') ? 401 : 400;
+      return res.status(statusCode).json({ error: error.message });
     }
+  }
 
-   async update(req, res) {
 
-        const { reserve_id } = req.params; 
-        const { date } = req.body;
+  async update(req, res) {
+    const { reserve_id } = req.params;
+    const { date } = req.body;
+    const { user_id } = req.headers; 
 
-        await Reserve.updateOne({ _id: reserve_id }, {
-            date,
-        });
+    const updateReserve = new UpdateReserveUseCase();
 
-        return res.send(); 
+    try {
+      await updateReserve.execute({ user_id, reserve_id, date });
+      return res.status(204).send();
+    } catch (error) {
+      const statusCode = error.message.includes('Nao autorizado') ? 401 : 404;
+      return res.status(statusCode).json({ error: error.message });
     }
-    
-    async destroy(req,res){
+  }
 
-        const {reserve_id} = req.body;
 
-        await Reserve.findByIdAndDelete({_id: reserve_id});
+  async destroy(req, res) {
+    const { reserve_id } = req.body; 
+    const { user_id } = req.headers; 
 
-        return res.send();
+    const deleteReserve = new DeleteReserveUseCase();
+
+    try {
+      await deleteReserve.execute({ user_id, reserve_id });
+      return res.json({ message: 'Reserva Cancelada' });
+    } catch (error) {
+      const statusCode = error.message.includes('Nao autorizada') ? 401 : 404;
+      return res.status(statusCode).json({ error: error.message });
     }
+  }
 
-    
 
 }
-   
- export default new ReserveController();
+
+export default new ReserveController();
