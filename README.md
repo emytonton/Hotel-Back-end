@@ -1,6 +1,6 @@
 ## Hotel Booking API
 Uma API RESTful para um sistema de aluguel e reserva de acomodações, desenvolvida com Node.js, Express e MongoDB. <br> <br>
-[![My Skills](https://skillicons.dev/icons?i=js,nodejs,express,mongodb)](https://skillicons.dev) <br> <br>
+[![My Skills](https://skillicons.dev/icons?i=js,nodejs,express,mongodb,aws)](https://skillicons.dev) <br> <br>
 Este projeto é uma plataforma completa que permite que usuários se cadastrem, gerenciem suas próprias casas (anúncios) e reservem acomodações disponíveis, seguindo uma arquitetura robusta e escalável. <br><br>
 
 ### Sobre o Projeto
@@ -58,6 +58,8 @@ Este projeto se concentra em três áreas principais: gerenciamento de Usuários
   - Controllers: Contêm a lógica de negócio da aplicação, processando as requisições recebidas das rotas.
   
   - Views (Rotas): As rotas (endpoints) definidas com Express, que direcionam as requisições HTTP para os controllers apropriados.
+    
+  - Use Cases (Casos de Uso): Contêm a lógica de negócio pura da aplicação. Eles orquestram as interações com os Models e executam as regras de negócio, sem conhecer detalhes sobre HTTP.
 
 ### 🛠️ Tecnologias Utilizadas
 O back-end desta aplicação foi construído utilizando as seguintes tecnologias e ferramentas:
@@ -73,6 +75,8 @@ O back-end desta aplicação foi construído utilizando as seguintes tecnologias
  - Yup: Biblioteca para validação de schemas, garantindo a integridade dos dados que chegam à API.
   
  - Multer: Middleware para o upload de imagens (thumbnail das casas).
+
+ - AWS S3: Serviço de armazenamento de objetos da Amazon Web Services, utilizado para hospedar as imagens de capa das casas.
   
   
 
