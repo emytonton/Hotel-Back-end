@@ -27,4 +27,7 @@ routes.post('/houses/:house_id/reserve', ReserveController.store)
 routes.get('/reserves', ReserveController.index)
 
 routes.delete('/reserves/cancel', ReserveController.destroy)
+
+routes.put('/reserves/:reserve_id', ReserveController.update)
+
 export default routes;

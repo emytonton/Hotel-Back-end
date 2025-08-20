@@ -47,6 +47,18 @@ class ReserveController{
         return res.json(reserve);
     }
 
+   async update(req, res) {
+
+        const { reserve_id } = req.params; 
+        const { date } = req.body;
+
+        await Reserve.updateOne({ _id: reserve_id }, {
+            date,
+        });
+
+        return res.send(); 
+    }
+    
     async destroy(req,res){
 
         const {reserve_id} = req.body;
@@ -55,6 +67,8 @@ class ReserveController{
 
         return res.send();
     }
+
+    
 
 }
    
