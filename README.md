@@ -82,7 +82,6 @@ O back-end desta aplicação foi construído utilizando as seguintes tecnologias
 | Método HTTP | Endpoint      | Descrição                                               | Autenticação Necessária |
 |-------------|---------------|---------------------------------------------------------|--------------------------|
 | POST        | /sessions     | Cria uma nova sessão, permitindo o login do usuário.    | Não                      |
-| POST        | /users        | Cadastra um novo usuário.                               | Não                      |
 | GET         | /houses       | Lista todas as casas disponíveis.                       | Não                      |
 | POST        | /houses       | Cadastra uma nova casa.                                 | Sim                      |
 | PUT         | /houses/:id   | Atualiza informações de uma casa existente.             | Sim                      |
