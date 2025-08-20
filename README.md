@@ -42,7 +42,7 @@ Este projeto se concentra em três áreas principais: gerenciamento de Usuários
       
       -  O usuário pode listar todas as suas reservas.
       
-      -  É possível cancelar (excluir) suas reservas a qualquer momento.
+      -  É possível cancelar (excluir) suas reservas ou modificá-las a qualquer momento.
 
 - Regras de Negócio:
 
