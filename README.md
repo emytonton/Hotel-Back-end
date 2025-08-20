@@ -51,7 +51,7 @@ Este projeto se concentra em três áreas principais: gerenciamento de Usuários
     - O proprietário de uma casa não pode reservá-la para si mesmo.
 
 ### 🏗️ Arquitetura <br>
-   O projeto foi desenvolvido seguindo o padrão de arquitetura MVC (Model-View-Controller), garantindo uma separação clara de responsabilidades e facilitando a manutenção e escalabilidade do código.
+   O projeto foi desenvolvido seguindo o padrão de arquitetura MVC (Model-View-Controller).
   
   - Models: Representam a estrutura dos dados (Schemas do Mongoose) e a lógica de interação com o banco de dados.
   
