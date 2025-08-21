@@ -1,8 +1,14 @@
-import Reserve from '../../models/Reserve';
+// src/use-cases/reserve/DeleteReserveUseCase.js
 
 class DeleteReserveUseCase {
+  constructor(reserveRepository) {
+    this.reserveRepository = reserveRepository;
+  }
+
   async execute({ user_id, reserve_id }) {
-    const reserve = await Reserve.findById(reserve_id);
+    
+    const reservesFound = await this.reserveRepository.search({ _id: reserve_id });
+    const reserve = reservesFound[0];
 
     if (!reserve) {
       throw new Error('Reserva não encontrada');
@@ -12,7 +18,8 @@ class DeleteReserveUseCase {
       throw new Error('Não autorizado');
     }
 
-    await Reserve.findByIdAndDelete(reserve_id);
+    
+    await this.reserveRepository.delete(reserve_id);
   }
 }
 

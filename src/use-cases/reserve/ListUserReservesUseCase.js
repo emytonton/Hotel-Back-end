@@ -1,13 +1,16 @@
-// lsita as casa de um user
-import Reserve from '../../models/Reserve';
 
 class ListUserReservesUseCase {
+  constructor(reserveRepository) {
+    this.reserveRepository = reserveRepository;
+  }
+
   async execute({ user_id }) {
     if (!user_id) {
-      throw new Error('User ID is required.');
+      throw new Error('ID pe necessario');
     }
 
-    const reserves = await Reserve.find({ user: user_id }).populate('house');
+    const reserves = await this.reserveRepository.search({ user: user_id });
+    
     return reserves;
   }
 }

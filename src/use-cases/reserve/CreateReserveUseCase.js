@@ -1,10 +1,15 @@
-// regras de negocio para fazer uma nova reserva
-import House from '../../models/House';
-import Reserve from '../../models/Reserve';
 
 class CreateReserveUseCase {
+  constructor(houseRepository, reserveRepository) {
+    this.houseRepository = houseRepository;
+    this.reserveRepository = reserveRepository;
+  }
+
   async execute({ user_id, house_id, date }) {
-    const house = await House.findById(house_id);
+    
+    const housesFound = await this.houseRepository.search({ _id: house_id });
+    const house = housesFound[0];
+
     if (!house) {
       throw new Error('Essa casa não existe');
     }
@@ -17,15 +22,18 @@ class CreateReserveUseCase {
       throw new Error('Voce não pode alugar uma casa que já é sua');
     }
 
-    let reserve = await Reserve.create({
+    
+    const reserveData = {
       user: user_id,
       house: house_id,
       date,
-    });
+    };
+    
+    const reserve = await this.reserveRepository.save(reserveData);
 
-    reserve = await reserve.populate(['house', 'user']);
+    const newReserve = await this.reserveRepository.search({ _id: reserve._id });
 
-    return reserve;
+    return newReserve[0];
   }
 }
 

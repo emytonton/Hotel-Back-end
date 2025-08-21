@@ -1,5 +1,3 @@
-// src/controllers/DashboardController.js
-
 import House from '../models/House';
 import HouseRepository from '../repositories/HouseRepository';
 import ListUserHousesUseCase from '../use-cases/dashboard/ListUserHousesUseCase';
