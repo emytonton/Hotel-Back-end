@@ -1,12 +1,16 @@
-import House from '../../models/House';
 
 class ListUserHousesUseCase {
+  constructor(houseRepository) {
+    this.houseRepository = houseRepository;
+  }
+
   async execute({ user_id }) {
     if (!user_id) {
       throw new Error('User ID is required.');
     }
 
-    const houses = await House.find({ user: user_id });
+   
+    const houses = await this.houseRepository.search({ user: user_id });
 
     return houses;
   }

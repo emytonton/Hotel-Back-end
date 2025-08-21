@@ -19,11 +19,6 @@ Este projeto se concentra em três áreas principais: gerenciamento de Usuários
 
      - Um usuário logado pode cadastrar uma nova casa para aluguel.
 
-     - É possível listar as casas disponíveis.
-
-     - O proprietário pode editar as informações ou excluir suas próprias casas.
-
-  - Detalhes da Casa:
 
     - Foto de Capa: Imagem principal de apresentação da casa.
       
