@@ -1,5 +1,5 @@
 // lsita as casa de um user
-import Reserve from '../models/Reserve';
+import Reserve from '../../models/Reserve';
 
 class ListUserReservesUseCase {
   async execute({ user_id }) {

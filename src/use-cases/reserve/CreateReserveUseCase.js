@@ -1,6 +1,6 @@
 // regras de negocio para fazer uma nova reserva
-import House from '../models/House';
-import Reserve from '../models/Reserve';
+import House from '../../models/House';
+import Reserve from '../../models/Reserve';
 
 class CreateReserveUseCase {
   async execute({ user_id, house_id, date }) {

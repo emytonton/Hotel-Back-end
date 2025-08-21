@@ -1,9 +1,11 @@
-//buscar e listar casas
-import House from '../models/House';
 
 class ListHousesUseCase {
+  constructor(houseRepository) {
+    this.houseRepository = houseRepository;
+  }
+
   async execute({ status }) {
-    const houses = await House.find({ status });
+    const houses = await this.houseRepository.search({ status });
     return houses;
   }
 }

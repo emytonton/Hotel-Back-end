@@ -1,5 +1,5 @@
 // atualiza uma reserva
-import Reserve from '../models/Reserve';
+import Reserve from '../../models/Reserve';
 
 class UpdateReserveUseCase {
   async execute({ user_id, reserve_id, date }) {

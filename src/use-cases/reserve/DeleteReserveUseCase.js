@@ -1,4 +1,4 @@
-import Reserve from '../models/Reserve';
+import Reserve from '../../models/Reserve';
 
 class DeleteReserveUseCase {
   async execute({ user_id, reserve_id }) {

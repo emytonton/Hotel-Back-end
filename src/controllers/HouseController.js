@@ -1,5 +1,7 @@
-// src/controllers/HouseController.js
+
 import * as Yup from 'yup';
+import House from '../models/House';
+import HouseRepository from '../repositories/HouseRepository';
 import ListHousesUseCase from '../use-cases/house/ListHousesUseCase';
 import CreateHouseUseCase from '../use-cases/house/CreateHouseUseCase';
 import UpdateHouseUseCase from '../use-cases/house/UpdateHouseUseCase';
@@ -7,10 +9,11 @@ import DeleteHouseUseCase from '../use-cases/house/DeleteHouseUseCase';
 
 class HouseController {
 
-
   async index(req, res) {
     const { status } = req.query;
-    const listHouses = new ListHousesUseCase();
+
+    const houseRepository = new HouseRepository(House);
+    const listHouses = new ListHousesUseCase(houseRepository);
 
     try {
       const houses = await listHouses.execute({ status });
@@ -36,7 +39,8 @@ class HouseController {
     const { description, price, location, status } = req.body;
     const { user_id } = req.headers;
 
-    const createHouse = new CreateHouseUseCase();
+    const houseRepository = new HouseRepository(House);
+    const createHouse = new CreateHouseUseCase(houseRepository);
 
     try {
       const house = await createHouse.execute({
@@ -62,7 +66,7 @@ class HouseController {
     });
 
     if (!(await schema.isValid(req.body))) {
-      return res.status(400).json({ error: 'Verficicação falhou' });
+      return res.status(400).json({ error: 'Verificação falhou' });
     }
 
     const { location: thumbnail = '' } = req.file;
@@ -70,7 +74,8 @@ class HouseController {
     const { description, price, location, status } = req.body;
     const { user_id } = req.headers;
 
-    const updateHouse = new UpdateHouseUseCase();
+    const houseRepository = new HouseRepository(House);
+    const updateHouse = new UpdateHouseUseCase(houseRepository);
 
     try {
       await updateHouse.execute({
@@ -82,7 +87,7 @@ class HouseController {
         location,
         status,
       });
-      return res.status(204).send(); 
+      return res.status(204).send();
     } catch (error) {
       const statusCode = error.message.includes('Unauthorized') ? 401 : 404;
       return res.status(statusCode).json({ error: error.message });
@@ -94,7 +99,8 @@ class HouseController {
     const { house_id } = req.body; 
     const { user_id } = req.headers;
 
-    const deleteHouse = new DeleteHouseUseCase();
+    const houseRepository = new HouseRepository(House);
+    const deleteHouse = new DeleteHouseUseCase(houseRepository);
 
     try {
       await deleteHouse.execute({ user_id, house_id });

@@ -1,9 +1,15 @@
-// verifica permissao do user e deleta a casa
-import House from '../models/House';
 
 class DeleteHouseUseCase {
+  constructor(houseRepository) {
+    this.houseRepository = houseRepository;
+  }
+
   async execute({ user_id, house_id }) {
-    const houseToDelete = await House.findById(house_id);
+    
+    const housesFound = await this.houseRepository.search({ _id: house_id });
+
+    
+    const houseToDelete = housesFound[0];
 
     if (!houseToDelete) {
       throw new Error('Casa não encontrada');
@@ -13,7 +19,7 @@ class DeleteHouseUseCase {
       throw new Error('Impossivel deletar, você não é dono dessa casa');
     }
 
-    await House.findByIdAndDelete(house_id);
+    await this.houseRepository.delete(house_id);
   }
 }
 

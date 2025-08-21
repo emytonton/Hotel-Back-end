@@ -1,9 +1,13 @@
-// verifica permissao do user e altera a casa
-import House from '../models/House';
 
 class UpdateHouseUseCase {
+  constructor(houseRepository) {
+    this.houseRepository = houseRepository;
+  }
+
   async execute({ user_id, house_id, thumbnail, description, price, location, status }) {
-    const houseToUpdate = await House.findById(house_id);
+   
+    const housesFound = await this.houseRepository.search({ _id: house_id });
+    const houseToUpdate = housesFound[0];
 
     if (!houseToUpdate) {
       throw new Error('Casa não encontrada');
@@ -13,13 +17,18 @@ class UpdateHouseUseCase {
       throw new Error('Impossivel atualizar, você não é dono dessa casa');
     }
 
-    await House.updateOne({ _id: house_id }, {
+    
+    const updatedData = {
+      _id: house_id, 
+      user: user_id, 
       thumbnail,
       description,
       price,
       location,
       status,
-    });
+    };
+
+    await this.houseRepository.save(updatedData);
   }
 }
 

@@ -1,4 +1,4 @@
-import House from '../models/House';
+import House from '../../models/House';
 
 class ListUserHousesUseCase {
   async execute({ user_id }) {
