@@ -1,6 +1,8 @@
 
 import * as Yup from 'yup';
-import FindOrCreateUserUseCase from '../use-cases/session/FindOrCreateUserUseCase';
+import User from '../models/User';
+import UserRepository from '../repositories/UserRepository';
+import AuthenticateUserUseCase from '../use-cases/session/AuthenticateUserUseCase';
 
 class SessionController {
   async store(req, res) {
@@ -9,17 +11,19 @@ class SessionController {
     });
 
     if (!(await schema.isValid(req.body))) {
-      return res.status(400).json({ error: 'Email é necessario' });
+      return res.status(400).json({ error: 'Email é necessário' });
     }
 
     const { email } = req.body;
-    const findOrCreateUser = new FindOrCreateUserUseCase();
+
+    const userRepository = new UserRepository(User);
+    const authenticateUser = new AuthenticateUserUseCase(userRepository);
 
     try {
-      const user = await findOrCreateUser.execute({ email });
-      return res.json(user);
+      const user = await authenticateUser.execute({ email });
+      return res.json(user); 
     } catch (error) {
-      return res.status(400).json({ error: error.message });
+      return res.status(401).json({ error: error.message }); 
     }
   }
 }

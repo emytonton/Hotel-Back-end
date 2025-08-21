@@ -1,4 +1,3 @@
-// src/use-cases/reserve/DeleteReserveUseCase.js
 
 class DeleteReserveUseCase {
   constructor(reserveRepository) {

@@ -1,4 +1,3 @@
-
 class ListUserReservesUseCase {
   constructor(reserveRepository) {
     this.reserveRepository = reserveRepository;

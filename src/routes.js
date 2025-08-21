@@ -5,6 +5,7 @@ import SessionController from './controllers/SessionController';
 import HouseController from './controllers/HouseController';
 import DashboardController from './controllers/DashboardController';
 import ReserveController from './controllers/ReserveController';
+import UserController from './controllers/UserController';
 
 
 const routes = new Router();
@@ -29,5 +30,13 @@ routes.get('/reserves', ReserveController.index)
 routes.delete('/reserves/cancel', ReserveController.destroy)
 
 routes.put('/reserves/:reserve_id', ReserveController.update)
+
+routes.get('/users', UserController.index);
+
+routes.put('/users/:user_id', UserController.update);
+
+routes.delete('/users/:user_id', UserController.destroy);
+
+routes.post('/users', UserController.store);
 
 export default routes;
